@@ -7,16 +7,26 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { CarouselComponent } from './carousel/carousel.component';
 import { ContentComponent } from './content/content.component';
 import { FooterComponent } from './footer/footer.component';
+import { CustomSliderComponent } from './custom-slider/custom-slider.component';
+import { HighlightDirective } from './highlight.directive';
+import { GameContorComponent } from './game-contor/game-contor.component';
+import { EvenComponent } from './even/even.component';
+import { OddComponent } from './odd/odd.component';
 
 
 
 @NgModule({
-  declarations: [							
+  declarations: [								
     AppComponent,
     NavbarComponent,
     CarouselComponent,
     ContentComponent,
-    FooterComponent
+    FooterComponent,
+      CustomSliderComponent,
+      HighlightDirective,
+      GameContorComponent,
+      EvenComponent,
+      OddComponent
    ],
   imports: [
     BrowserModule,
