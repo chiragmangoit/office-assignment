@@ -8,10 +8,11 @@ import { CarouselComponent } from './carousel/carousel.component';
 import { ContentComponent } from './content/content.component';
 import { FooterComponent } from './footer/footer.component';
 import { CustomSliderComponent } from './custom-slider/custom-slider.component';
-import { HighlightDirective } from './highlight.directive';
+import { HighlightDirective } from './directives/highlight.directive';
 import { GameContorComponent } from './game-contor/game-contor.component';
 import { EvenComponent } from './even/even.component';
 import { OddComponent } from './odd/odd.component';
+import { RendererDirective } from './directives/renderer.directive';
 
 
 
@@ -22,11 +23,12 @@ import { OddComponent } from './odd/odd.component';
     CarouselComponent,
     ContentComponent,
     FooterComponent,
-      CustomSliderComponent,
-      HighlightDirective,
-      GameContorComponent,
-      EvenComponent,
-      OddComponent
+    CustomSliderComponent,
+    HighlightDirective,
+    GameContorComponent,
+    EvenComponent,
+    OddComponent,
+    RendererDirective
    ],
   imports: [
     BrowserModule,

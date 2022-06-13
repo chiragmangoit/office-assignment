@@ -1,18 +1,25 @@
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Gideon+Roman&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Gideon+Roman&display=swap"
+  rel="stylesheet"
+/>
 <app-navbar></app-navbar>
-<h1 appHighlight class="text-center pt-2" >My first angular website</h1>
+<div appRenderer appHighlight>
+  <h1 class="text-center pt-2">My first angular website</h1>
+</div>
 <app-carousel></app-carousel>
 <app-custom-slider></app-custom-slider>
 <app-game-contor (intervalFired)="onIntervalFired($event)"></app-game-contor>
-<div class="col-xs12 d-flex" style="color:red;">
+<div class="container">
+  <div class="col-xs12 d-flex" style="color: red">
     <p>Odd Numbers:</p>
     <app-odd *ngFor="let oddNo of oddNumber" [number]="oddNo"></app-odd>
-</div>
-<div class="col-xs12 d-flex" style="color:green;">
+  </div>
+  <div class="col-xs12 d-flex" style="color: green">
     <p>Even Numbers:</p>
     <app-even *ngFor="let evenNo of evenNumber" [number]="evenNo"></app-even>
+  </div>
 </div>
 <app-content></app-content>
 <app-footer></app-footer>
