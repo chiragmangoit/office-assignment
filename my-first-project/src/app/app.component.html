@@ -8,10 +8,14 @@
 <div appRenderer appHighlight>
   <h1 class="text-center pt-2">My first angular website</h1>
 </div>
+<app-product></app-product>
 <app-carousel></app-carousel>
-<app-custom-slider></app-custom-slider>
-<app-game-contor (intervalFired)="onIntervalFired($event)"></app-game-contor>
-<div class="container">
+<!-- <app-custom-slider></app-custom-slider> -->
+<div class="text-center my-3">
+  <button class="btn btn-secondary" (click)="onClickShow()">View Game</button>
+</div>
+<div *appUnless="show" class="container border border-success">
+  <app-game-contor (intervalFired)="onIntervalFired($event)"></app-game-contor>
   <div class="col-xs12 d-flex" style="color: red">
     <p>Odd Numbers:</p>
     <app-odd *ngFor="let oddNo of oddNumber" [number]="oddNo"></app-odd>
@@ -21,5 +25,4 @@
     <app-even *ngFor="let evenNo of evenNumber" [number]="evenNo"></app-even>
   </div>
 </div>
-<app-content></app-content>
 <app-footer></app-footer>

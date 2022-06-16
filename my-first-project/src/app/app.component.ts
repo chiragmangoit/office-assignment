@@ -7,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'my-first-project';
+  show = true;
   oddNumber:number[] = [];
   evenNumber:number[] = [];
 
@@ -16,6 +17,11 @@ export class AppComponent {
     } else {
       this.oddNumber.push(lastNumber);
     }
-    
+  }
+
+  onClickShow() {
+    this.show = !this.show;
+    this.evenNumber = [];
+    this.oddNumber = [];
   }
 }

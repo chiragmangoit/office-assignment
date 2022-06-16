@@ -13,6 +13,8 @@ import { GameContorComponent } from './game-contor/game-contor.component';
 import { EvenComponent } from './even/even.component';
 import { OddComponent } from './odd/odd.component';
 import { RendererDirective } from './directives/renderer.directive';
+import { UnlessDirective } from './directives/unless.directive';
+import { ProductComponent } from './product/product.component';
 
 
 
@@ -28,7 +30,9 @@ import { RendererDirective } from './directives/renderer.directive';
     GameContorComponent,
     EvenComponent,
     OddComponent,
-    RendererDirective
+    RendererDirective,
+    UnlessDirective,
+    ProductComponent,
    ],
   imports: [
     BrowserModule,
