@@ -57,9 +57,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onEdit(index:number) {
-    
+
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 }
+ 
