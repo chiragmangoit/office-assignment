@@ -12,8 +12,16 @@
       <td>{{ user.email }}</td>
       <td>{{ user.gender }}</td>
       <td>
-        <button class="btn btn-secondary" type="button" (click)="onEdit(i)">Edit</button>
+        <button
+          class="btn btn-secondary"
+          type="button"
+          (click)="onEdit(i)"
+          routerLink="edit/{{i}}"
+        >
+          Edit
+        </button>
       </td>
     </tr>
   </table>
 </div>
+<router-outlet></router-outlet>

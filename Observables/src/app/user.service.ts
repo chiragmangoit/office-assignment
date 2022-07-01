@@ -12,12 +12,15 @@ export class UserService {
     return this.userData;
   }
 
+  getUserData(id:number) {
+    return this.userData[id]
+  }
   addData(newUserInfo:object) {
     this.userData.push(newUserInfo);
   }
 
   editData() {
-    
+
   }
 
   activatedEmitter = new Subject<boolean>();

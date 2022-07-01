@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { Subject } from 'rxjs';
 import { UserService } from '../user.service';
@@ -12,7 +12,8 @@ import { UserService } from '../user.service';
 })
 export class FormsComponent implements OnInit {
   @ViewChild('form') signUpForm: NgForm;
-  
+  editMode:boolean = false;
+  id:number;
   submitted: boolean = false;
   dropdownList:string[] = [];
   dropdownSettings: IDropdownSettings = {};
@@ -73,6 +74,33 @@ export class FormsComponent implements OnInit {
       textField: 'item_text',
       enableCheckAll: false,
     };
+    this.route.params.subscribe((params: Params) => {
+      this.id = +params['id'];
+      this.editMode = params['id'] != null;
+      this.initForm();
+    });
+  }
+
+  initForm(){
+    if ( this.editMode ) {
+      const newUserData = this.userDataService.getUserData(this.id);
+      const newName = newUserData['name'];
+      this.signUpForm.setValue({
+        userDataOne:{
+          username:newName
+        }
+      })
+      // this.user['email'] = this.signUpForm.value.userDataOne.email;
+      // this.user['gender'] = this.signUpForm.value.userDataOne.gender;
+      // this.user['dob'] = this.signUpForm.value.userDataOne.dob;
+      // this.user['dp'] = this.signUpForm.value.userDataTwo.pic;
+      // this.user['hobbies'] = this.getSelectedHobby();
+      // this.user['phoneNum'] = this.signUpForm.value.userDataTwo.number;
+      // this.user['qualification'] = this.signUpForm.value.userDataThree.qualification;
+      // this.user['profession'] = this.signUpForm.value.userDataThree.occupation;
+      // this.user['description'] = this.signUpForm.value.userDataThree.description;
+      // this.user['contacts'] = this.contact;
+    }
   }
 
   getSelectedHobby(): string[] {
