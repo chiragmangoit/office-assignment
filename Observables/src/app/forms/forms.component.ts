@@ -89,7 +89,7 @@ export class FormsComponent implements OnInit {
         userDataOne:{
           username:newName
         }
-      })
+      }) 
       // this.user['email'] = this.signUpForm.value.userDataOne.email;
       // this.user['gender'] = this.signUpForm.value.userDataOne.gender;
       // this.user['dob'] = this.signUpForm.value.userDataOne.dob;
