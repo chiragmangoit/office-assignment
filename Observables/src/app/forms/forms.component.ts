@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { Subject } from 'rxjs';
 import { UserService } from '../user.service';
 
 @Component({
@@ -12,12 +11,10 @@ import { UserService } from '../user.service';
 })
 export class FormsComponent implements OnInit {
   @ViewChild('form') signUpForm: NgForm;
-  editMode:boolean = false;
-  id:number;
-  submitted: boolean = false;
-  dropdownList:string[] = [];
+  editMode: boolean = false;
+  id: number;
+  dropdownList: string[] = [];
   dropdownSettings: IDropdownSettings = {};
-  description: string;
   genders: string[] = ['male', 'female'];
   hobbies: any = [
     {
@@ -51,21 +48,25 @@ export class FormsComponent implements OnInit {
     },
   ];
 
-  user:object = {
-    name:'',
-    email:'',
-    gender:'',
-    dob:'',
-    dp:'',
-    hobbies:[],
-    phoneNum:'',
-    qualification:[],
-    profession:'',
-    description:'',
-    contacts:[]
-  }
+  user: object = {
+    name: '',
+    email: '',
+    gender: '',
+    dob: '',
+    dp: '',
+    hobbies: [],
+    phoneNum: '',
+    qualification: [],
+    profession: '',
+    description: '',
+    contacts: [] ,
+  };
 
-  constructor(private userDataService:UserService, private router:Router, private route:ActivatedRoute) {}
+  constructor(
+    private userDataService: UserService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.dropdownList = ['MCA', 'BCA', 'B.tech', 'M.tech', 'B.Com'];
@@ -81,36 +82,41 @@ export class FormsComponent implements OnInit {
     });
   }
 
-  initForm(){
-    if ( this.editMode ) {
+  initForm() {
+    if (this.editMode) {
       const newUserData = this.userDataService.getUserData(this.id);
-      const newName = newUserData['name'];
-      this.signUpForm.setValue({
-        userDataOne:{
-          username:newName
-        }
-      }) 
-      // this.user['email'] = this.signUpForm.value.userDataOne.email;
-      // this.user['gender'] = this.signUpForm.value.userDataOne.gender;
-      // this.user['dob'] = this.signUpForm.value.userDataOne.dob;
-      // this.user['dp'] = this.signUpForm.value.userDataTwo.pic;
-      // this.user['hobbies'] = this.getSelectedHobby();
-      // this.user['phoneNum'] = this.signUpForm.value.userDataTwo.number;
-      // this.user['qualification'] = this.signUpForm.value.userDataThree.qualification;
-      // this.user['profession'] = this.signUpForm.value.userDataThree.occupation;
-      // this.user['description'] = this.signUpForm.value.userDataThree.description;
-      // this.user['contacts'] = this.contact;
+      const selectedHobby: string[] = newUserData['hobbies'];
+      this.fetchSelectedHobby(selectedHobby);
+      this.user['name'] = newUserData['name'];
+      this.user['email'] = newUserData['email'];
+      this.user['gender'] = newUserData['gender'];
+      this.user['dob'] = newUserData['dob'];
+      this.user['phoneNum'] = newUserData['phoneNum'];
+      this.user['qualification'] = newUserData['qualification'];
+      this.user['profession'] = newUserData['profession'];
+      this.user['description'] = newUserData['description'];
+      this.contact = newUserData['contacts'];
     }
   }
 
   getSelectedHobby(): string[] {
-    let selectedHobby = [];
+    const selectedHobby = [];
     for (let e of this.hobbies) {
       if (this.signUpForm.value.userDataTwo[e.id]) {
         selectedHobby.push(e.name);
       }
     }
     return selectedHobby;
+  }
+
+  fetchSelectedHobby(selectedHobby: string[]) {
+    for (let e of selectedHobby) {
+      for (let f of this.hobbies) {
+        if (e == f['name']) {
+          f['selected'] = true;
+        }
+      }
+    }
   }
 
   onAddContacts() {
@@ -125,20 +131,13 @@ export class FormsComponent implements OnInit {
     this.contact.splice(index, 1);
   }
   onSubmit() {
-
-    this.user['name'] = this.signUpForm.value.userDataOne.username;
-    this.user['email'] = this.signUpForm.value.userDataOne.email;
-    this.user['gender'] = this.signUpForm.value.userDataOne.gender;
-    this.user['dob'] = this.signUpForm.value.userDataOne.dob;
-    this.user['dp'] = this.signUpForm.value.userDataTwo.pic;
     this.user['hobbies'] = this.getSelectedHobby();
-    this.user['phoneNum'] = this.signUpForm.value.userDataTwo.number;
-    this.user['qualification'] = this.signUpForm.value.userDataThree.qualification;
-    this.user['profession'] = this.signUpForm.value.userDataThree.occupation;
-    this.user['description'] = this.signUpForm.value.userDataThree.description;
-    this.user['contacts'] = this.contact;
-    this.userDataService.addData(this.user);
-    this.router.navigate(['/home'], {relativeTo:this.route});
+    this.user['contacts'] = this.contact
+    if (!this.editMode) {
+      this.userDataService.addData(this.user);
+    } else {
+      this.userDataService.updateData(this.id, this.user)
+    }
+    this.router.navigate(['/home'], { relativeTo: this.route });
   }
-
 }

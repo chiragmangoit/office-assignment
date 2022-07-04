@@ -7,20 +7,21 @@ import { Subject } from 'rxjs';
 export class UserService {
   userData:{}[] = [];
   constructor() { }
-
+  dataUpdated = new Subject<{}[]>();
   getData() {
-    return this.userData;
+    return this.userData.slice();
   }
 
   getUserData(id:number) {
-    return this.userData[id]
+    return this.userData[id];
   }
   addData(newUserInfo:object) {
     this.userData.push(newUserInfo);
   }
 
-  editData() {
-
+  updateData(index:number,newUserData:object) {
+    this.userData[index] = newUserData;
+    this.dataUpdated.next(this.userData.slice());
   }
 
   activatedEmitter = new Subject<boolean>();

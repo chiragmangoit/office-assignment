@@ -16,7 +16,7 @@
                   id="username"
                   class="form-control"
                   name="username"
-                  ngModel
+                  [(ngModel)]="user['name']"
                   #username="ngModel"
                   required
                 />
@@ -33,7 +33,7 @@
                   id="email"
                   class="form-control"
                   name="email"
-                  ngModel
+                  [(ngModel)]="user['email']"
                   required
                   email
                   #email="ngModel"
@@ -56,10 +56,9 @@
                     <input
                       type="radio"
                       name="gender"
-                      id="{{ gender }}"
                       value="{{ gender }}"
-                      [ngModel]="gender"
-                      requried
+                      [(ngModel)]="user['gender']"
+                      required
                       #gender="ngModel"
                     />
                     {{ gender }}
@@ -78,7 +77,7 @@
                   id="dateOfBirth"
                   class="form-control"
                   name="dob"
-                  ngModel
+                  [(ngModel)]="user['dob']"
                   #dob="ngModel"
                   required
                 />
@@ -103,14 +102,14 @@
               ngModelGroup="userDataTwo"
               #userDataTwo="ngModelGroup"
             >
-              <div class="form-group">
+              <div class="form-group" *ngIf="!editMode">
                 <label for="profilePic">Profile Image</label>
                 <input
                   type="file"
                   id="profilePic"
                   class="form-control"
                   name="pic"
-                  ngModel
+                  [(ngModel)]="user['dp']"
                   #pic="ngModel"
                   required
                   style="border: none"
@@ -130,7 +129,7 @@
                           id="hobbies"
                           class="form-control"
                           name="{{ hobby.id }}"
-                          ngModel
+                          [ngModel]="hobby.selected"
                           #hobby="ngModel"
                         />
                         {{ hobby.name }}
@@ -146,7 +145,7 @@
                   name="number"
                   id="number"
                   class="form-control"
-                  ngModel
+                  [(ngModel)]="user['phoneNum']"
                   #number="ngModel"
                   required
                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
@@ -186,7 +185,7 @@
                 <ng-multiselect-dropdown
                   [settings]="dropdownSettings"
                   [data]="dropdownList"
-                  ngModel
+                  [(ngModel)]="user['qualification']"
                   name="qualification"
                   required
                   #qualification="ngModel"
@@ -205,7 +204,7 @@
                   class="form-control dropdown"
                   id="occupation"
                   name="occupation"
-                  ngModel
+                  [(ngModel)]="user['profession']"
                   required
                   #prof="ngModel"
                 >
@@ -228,7 +227,7 @@
                     class="form-control"
                     rows="4"
                     cols="40"
-                    [(ngModel)]="description"
+                    [(ngModel)]="user['description']"
                     required
                     #desc="ngModel"
                   ></textarea>
@@ -308,7 +307,7 @@
                 class="btn btn-primary mx-3"
                 type="submit"
               >
-                Submit
+                {{ !editMode  ? 'Submit' : 'update'}}
               </button>
             </div>
           </mat-step>

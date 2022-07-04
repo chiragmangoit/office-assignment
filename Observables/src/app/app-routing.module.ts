@@ -5,12 +5,13 @@ import { FormsComponent } from './forms/forms.component';
 
 import { HomeComponent } from './home/home.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { ReactiveFormComponent } from './reactive-form/reactive-form.component';
 import { UserComponent } from './user/user.component';
 
 const routes: Routes = [
   {path: '', component: LoginFormComponent},
   {path: 'home', component: HomeComponent,children:[
-    {path: ':edit/:id', component: FormsComponent}
+    {path: ':edit/:id', component: ReactiveFormComponent}
   ]},
   {path: 'user/:id', component: UserComponent}
 ];

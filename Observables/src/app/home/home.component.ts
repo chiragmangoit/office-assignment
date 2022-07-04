@@ -53,12 +53,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     //       console.log('observable complete');
     //     }
     //   );
+    this.userservice.dataUpdated.subscribe(
+      (data) => {
+        this.usersData = data
+      }
+    )
     this.usersData = this.userservice.getData();
   }
 
-  onEdit(index:number) {
-
-  }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

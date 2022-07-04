@@ -5,3 +5,7 @@ input.ng-invalid.ng-touched {
 .help-block {
   color: red;
 }
+
+::ng-deep .mat-horizontal-stepper-header{
+  pointer-events: none !important;
+}
