@@ -1,9 +1,18 @@
 <div class="container">
   <div class="row">
     <div>
+      <h2 style="text-align: center">Reactive Form</h2>
       <form [formGroup]="regForm" (ngSubmit)="onSubmit()">
         <mat-horizontal-stepper>
           <mat-step label="Step 1">
+            <span
+              *ngIf="
+                regForm.get('userDataOne').touched &&
+                !regForm.get('userDataOne').valid
+              "
+              class="help-block"
+              >Please Enter All Values!</span
+            >
             <div id="user-data" formGroupName="userDataOne">
               <div class="form-group">
                 <label for="username">Name</label>
@@ -97,6 +106,14 @@
             </div>
           </mat-step>
           <mat-step label="Step 2">
+            <span
+              *ngIf="
+                regForm.get('userDataTwo').touched &&
+                !regForm.get('userDataTwo').valid
+              "
+              class="help-block"
+              >Please Enter All Values!</span
+            >
             <div id="user-data" formGroupName="userDataTwo">
               <div class="form-group" *ngIf="!editMode">
                 <label for="profilePic">Profile Image</label>
@@ -119,7 +136,10 @@
                 <label for="hobby"
                   >Hobbies
                   <div class="form-group d-flex">
-                    <div *ngFor="let hobby of hobbies"  formArrayName="hobbies">
+                    <div
+                      *ngFor="let hobby of hobbies; let i = index"
+                      formArrayName="hobbies"
+                    >
                       <label class="mx-2">
                         <input
                           type="checkbox"
@@ -128,7 +148,6 @@
                           value="{{ hobby.name }}"
                           (change)="getSelectedHobby($event)"
                           [checked]="hobby.selected"
-                         
                         />
                         {{ hobby.name }}
                       </label>
@@ -146,12 +165,18 @@
                   placeholder="123-456-7890"
                 />
                 <span
-                  *ngIf="
-                    regForm.get('userDataTwo.phoneNum').touched &&
-                    regForm.get('userDataTwo.phoneNum').hasError('required')
-                  "
+                  *ngIf="regForm.get('userDataTwo.phoneNum').touched"
                   class="help-block"
-                  >Number should be in format:-123-456-7890</span
+                  >{{
+                    regForm.get("userDataTwo.phoneNum").hasError("pattern")
+                      ? "Number should be in format:-123-456-7890"
+                      : ""
+                  }}
+                  {{
+                    regForm.get("userDataTwo.phoneNum").hasError("pattern")
+                      ? "Number is Required"
+                      : ""
+                  }}</span
                 >
               </div>
             </div>
@@ -174,6 +199,14 @@
             </button>
           </mat-step>
           <mat-step label="Step 3">
+            <span
+              *ngIf="
+                regForm.get('userDataThree').touched &&
+                !regForm.get('userDataThree').valid
+              "
+              class="help-block"
+              >Please Enter All Values!</span
+            >
             <div id="user-data" formGroupName="userDataThree">
               <div class="form-group">
                 <label for="Qualification">Qualification</label>
@@ -264,14 +297,16 @@
                   <div>
                     <label for="phoneNumber" class="mx-3">Phone Number</label>
                     <input
-                      type="number"
+                      type="tel"
                       id="contactNumber"
                       formControlName="number"
                       placeholder="{{
-                        regForm.get('userDataThree.contacts').hasError('required') &&
+                        regForm
+                          .get('userDataThree.contacts')
+                          .hasError('required') &&
                         regForm.get('userDataThree.contacts').touched
                           ? 'number is required'
-                          : ''
+                          : 'format:-123-456-7890'
                       }}"
                     />
                   </div>
@@ -304,7 +339,11 @@
               >
                 prev
               </button>
-              <button [disabled]="!regForm.valid" class="btn btn-primary mx-3" type="submit">
+              <button
+                [disabled]="!regForm.valid"
+                class="btn btn-primary mx-3"
+                type="submit"
+              >
                 {{ !editMode ? "Submit" : "update" }}
               </button>
             </div>

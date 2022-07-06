@@ -1,9 +1,15 @@
 <div class="container">
   <div class="row">
     <div>
+      <h2 style="text-align: center">Template Driven Form</h2>
       <form (ngSubmit)="onSubmit()" #form="ngForm">
         <mat-horizontal-stepper>
           <mat-step label="Step 1">
+            <span
+              class="help-block"
+              *ngIf="!userDataOne.valid && userDataOne.touched"
+              >Please Enter All values!</span
+            >
             <div
               id="user-data"
               ngModelGroup="userDataOne"
@@ -85,18 +91,25 @@
                   >Please Enter dob!</span
                 >
               </div>
-              <button
-                mat-button
-                matStepperNext
-                [disabled]="!userDataOne.valid"
-                type="button"
-                class="btn btn-primary"
-              >
-                Next
-              </button>
+              <div>
+                <button
+                  mat-button
+                  matStepperNext
+                  [disabled]="!userDataOne.valid"
+                  type="button"
+                  class="btn btn-primary"
+                >
+                  Next
+                </button>
+              </div>
             </div>
           </mat-step>
           <mat-step label="Step 2">
+            <span
+              class="help-block"
+              *ngIf="!userDataTwo.valid && userDataTwo.touched"
+              >Please Enter All values!</span
+            >
             <div
               id="user-data"
               ngModelGroup="userDataTwo"
@@ -175,10 +188,15 @@
             </button>
           </mat-step>
           <mat-step label="Step 3">
+            <span
+              class="help-block"
+              *ngIf="!userDataThree.valid && userDataThree.touched"
+              >Please Enter All values!</span
+            >
             <div
               id="user-data"
               ngModelGroup="userDataThree"
-              #userData="ngModelGroup"
+              #userDataThree="ngModelGroup"
             >
               <div class="form-group">
                 <label for="Qualification">Qualification</label>
@@ -247,7 +265,7 @@
                     type="text"
                     name="contactName{{ i }}"
                     id="contactName"
-                    [(ngModel)]="list.contactName"
+                    [(ngModel)]="list.name"
                     required
                     #contactName="ngModel"
                     [placeholder]="
@@ -260,16 +278,17 @@
                 <div>
                   <label for="phoneNumber" class="mx-3">Phone Number</label>
                   <input
-                    type="number"
+                    type="tel"
                     name="contactNumber{{ i }}"
                     id="contactNumber"
-                    [(ngModel)]="list.contactNumber"
+                    [(ngModel)]="list.number"
                     required
                     #contactNumber="ngModel"
+                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                     [placeholder]="
-                      !contactNumber.valid && contactNumber.touched
+                      !contactNumber.required && contactNumber.touched
                         ? 'Contact Number is required'
-                        : ''
+                        : 'format-123-456-7890'
                     "
                   />
                 </div>
@@ -307,7 +326,7 @@
                 class="btn btn-primary mx-3"
                 type="submit"
               >
-                {{ !editMode  ? 'Submit' : 'update'}}
+                {{ !editMode ? "Submit" : "update" }}
               </button>
             </div>
           </mat-step>

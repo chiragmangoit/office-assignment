@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { Subscription } from 'rxjs';
 import { UserService } from '../user.service';
 import { CustomValidations } from './custom-validations';
 
@@ -21,6 +22,7 @@ export class ReactiveFormComponent implements OnInit {
   editMode: boolean = false;
   id: number;
   selectedHobby: any = [];
+  subscription: Subscription;
   dropdownList: string[] = [];
   dropdownSettings: IDropdownSettings = {};
   genders: string[] = ['male', 'female'];
@@ -51,6 +53,7 @@ export class ReactiveFormComponent implements OnInit {
   contact: [] = [];
 
   user: object = {
+    userid: this.userDataService.userData.length,
     name: '',
     email: '',
     gender: '',
@@ -104,7 +107,7 @@ export class ReactiveFormComponent implements OnInit {
               name: new FormControl(info.name, Validators.required),
               number: new FormControl(info.number, [
                 Validators.required,
-                Validators.pattern(/^[1-9]+[0-9]*$/),
+                Validators.pattern(/[0-9]{3}-[0-9]{3}-[0-9]{4}/),
               ]),
             })
           );
@@ -121,7 +124,7 @@ export class ReactiveFormComponent implements OnInit {
           dob: new FormControl(this.user['dob'], Validators.required),
         }),
         userDataTwo: new FormGroup({
-          hobbies: new FormArray(this.user['hobbies'], Validators.required),
+          hobbies: new FormArray(this.selectedHobby, Validators.required),
           phoneNum: new FormControl(this.user['phoneNum'], Validators.required),
         }),
         userDataThree: new FormGroup({
@@ -153,8 +156,11 @@ export class ReactiveFormComponent implements OnInit {
         }),
         userDataTwo: new FormGroup({
           dp: new FormControl(null, Validators.required),
-          hobbies: new FormArray(this.user['hobbies'], Validators.required),
-          phoneNum: new FormControl(this.user['phoneNum'], Validators.required),
+          hobbies: new FormArray([], Validators.required),
+          phoneNum: new FormControl(this.user['phoneNum'], [
+            Validators.required,
+            Validators.pattern('[0-9]{3}-[0-9]{3}-[0-9]{4}'),
+          ]),
         }),
         userDataThree: new FormGroup({
           qualification: new FormControl(
@@ -178,7 +184,7 @@ export class ReactiveFormComponent implements OnInit {
                 ),
                 number: new FormControl(this.user['contacts'].number, [
                   Validators.required,
-                  Validators.pattern(/^[1-9]+[0-9]*$/),
+                  Validators.pattern(/[0-9]{3}-[0-9]{3}-[0-9]{4}/),
                 ]),
               }),
             ],
@@ -186,19 +192,8 @@ export class ReactiveFormComponent implements OnInit {
           ),
         }),
       });
-      // this.addCheckboxesToForm();
     }
   }
-
-  // private addCheckboxesToForm() {
-  //   this.hobbies.forEach(() =>
-  //     this.ordersFormArray.push(new FormControl(false))
-  //   );
-  // }
-
-  // get ordersFormArray() {
-  //   return this.regForm.controls.userDataTwo['hobbies'] as FormArray;
-  // }
 
   getSelectedHobby(event: any) {
     this.selectedHobby = this.regForm.get('userDataTwo.hobbies') as FormArray;
@@ -227,8 +222,7 @@ export class ReactiveFormComponent implements OnInit {
       for (let f of this.hobbies) {
         if (e == f['name']) {
           f['selected'] = true;
-        } else {
-          continue;
+          this.selectedHobby.push(new FormControl(f['name']));
         }
       }
     }
@@ -240,7 +234,7 @@ export class ReactiveFormComponent implements OnInit {
         name: new FormControl(null, Validators.required),
         number: new FormControl(null, [
           Validators.required,
-          Validators.pattern(/^[1-9]+[0-9]*$/),
+          Validators.pattern(/[0-9]{3}-[0-9]{3}-[0-9]{4}/),
         ]),
       })
     );
@@ -256,11 +250,6 @@ export class ReactiveFormComponent implements OnInit {
   }
 
   onSubmit() {
-    // const selectedOrderIds = this.regForm.value.userDataTwo.hobbies
-    //   .map((checked, i) => (checked ? this.hobbies[i].id : null))
-    //   .filter((v) => v !== null);
-    // console.log(selectedOrderIds);
-
     this.user['name'] = this.regForm.value.userDataOne.name;
     this.user['email'] = this.regForm.value.userDataOne.email;
     this.user['gender'] = this.regForm.value.userDataOne.gender;
@@ -274,6 +263,7 @@ export class ReactiveFormComponent implements OnInit {
     this.user['contacts'] = this.regForm.value.userDataThree.contacts;
 
     if (!this.editMode) {
+      this.user['userid'] = this.userDataService.userData.length + 1;
       this.userDataService.addData(this.user);
     } else {
       this.userDataService.updateData(this.id, this.user);

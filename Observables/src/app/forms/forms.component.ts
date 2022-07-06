@@ -43,12 +43,13 @@ export class FormsComponent implements OnInit {
   contact: any = [
     {
       id: 1,
-      contactName: '',
-      contactNumber: '',
+      name: '',
+      number: '',
     },
   ];
 
   user: object = {
+    userid:this.userDataService.userData.length+1,
     name: '',
     email: '',
     gender: '',
@@ -134,6 +135,7 @@ export class FormsComponent implements OnInit {
     this.user['hobbies'] = this.getSelectedHobby();
     this.user['contacts'] = this.contact
     if (!this.editMode) {
+      this.user['userid'] = this.user['userid']++;
       this.userDataService.addData(this.user);
     } else {
       this.userDataService.updateData(this.id, this.user)
